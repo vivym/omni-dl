@@ -12,7 +12,7 @@ RUN poetry export --output=requirements.txt && \
 FROM tiangolo/uvicorn-gunicorn:python3.10-slim as api
 
 COPY --from=requirements /tmp/requirements.txt /tmp/requirements-dev.txt /tmp/
-RUN pip install --no-cache-dir -r /tmp/requirements.txt -r /tmp/requirements-dev.txt
+RUN pip install --no-cache-dir --no-deps -r /tmp/requirements.txt -r /tmp/requirements-dev.txt
 
 COPY . /app
 
@@ -25,7 +25,7 @@ ENV VARIABLE_NAME=app
 FROM python:3.10-slim as worker
 
 COPY --from=requirements /tmp/requirements.txt /tmp/requirements-dev.txt /tmp/
-RUN pip install --no-cache-dir -r /tmp/requirements.txt -r /tmp/requirements-dev.txt
+RUN pip install --no-cache-dir --no-deps -r /tmp/requirements.txt -r /tmp/requirements-dev.txt
 
 COPY . /app
 

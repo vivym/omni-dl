@@ -15,12 +15,12 @@ class Settings(BaseSettings):
     secret_algorithm: str = "HS256"
     access_token_expire_minutes: int = 30
 
-    mongo_uri: str = "mongodb://localhost:27017"
+    mongo_uri: str = "mongodb://mongo:27017"
     mongo_db: str = "omni_dl"
 
     celery_app_name: str = "omni-dl-server-tasks"
-    celery_broker_uri: str = "redis://localhost:6379/0"
-    celery_backend_uri: str = "redis://localhost:6379/0"
+    celery_broker_uri: str = "redis://redis:6379/0"
+    celery_backend_uri: str = "redis://redis:6379/0"
 
     # Settings for Client
     num_workers: int = 4

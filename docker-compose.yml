@@ -1,0 +1,38 @@
+version: "3.8"
+
+services:
+  api:
+    image: omni-dl-api:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: api
+    depends_on:
+      - mongo
+      - redis
+    volumes:
+      - ./.env:/app/.env
+    ports:
+      - "11560:80"
+
+  worker:
+    image: omni-dl-worker:latest
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: worker
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+
+  mongo:
+    image: mongo:6-jammy
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - "127.0.0.1:27017:27017"
+
+volumes:
+  mongo-data:

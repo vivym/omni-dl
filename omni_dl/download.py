@@ -391,9 +391,9 @@ class OmniDL:
         self.is_running = mp.Value("b", True)
         self.is_closing = mp.Value("b", False)
         self.is_all_workers_stopped = mp.Value("b", False)
-        self.total_items = mp.Value("i", 0)
-        self.total_bytes = mp.Value("i", 0)
-        self.failed_items = mp.Value("i", 0)
+        self.total_items = mp.Value("I", 0)
+        self.total_bytes = mp.Value("L", 0)
+        self.failed_items = mp.Value("I", 0)
 
         self._global_stats_update_time = datetime.utcnow()
         self._global_stats: TaskGlobalStats | None = None
@@ -477,8 +477,8 @@ class OmniDL:
             index = bisect_left(self.byte_speed_list, (datetime.utcnow() - timedelta(minutes=1), 0))
             self.byte_speed_list = self.byte_speed_list[index:]
 
-        items_per_second = sum([i[1] for i in self.item_speed_list]) / 60.0
-        bytes_per_second = sum([i[1] for i in self.byte_speed_list]) / 60.0
+        items_per_second = sum([float(i[1]) for i in self.item_speed_list]) / 60.0
+        bytes_per_second = sum([float(i[1]) for i in self.byte_speed_list]) / 60.0
 
         return TaskLocalStats(
             items_per_second=items_per_second,
